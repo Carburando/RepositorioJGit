@@ -19,7 +19,6 @@ import java.util.List;
 public class Principal {
     public static void main (String[] args) throws IOException, GitAPIException, URISyntaxException {
 
-
         try  {
             String httpUrl = "https://github.com/Carburando/RepositorioJGit.git";
             String localPath = "C:\\Users\\daive\\Desktop\\JgitBranch\\";
@@ -37,17 +36,15 @@ public class Principal {
             git.branchCreate().setName("Controlador").call();
             git.branchCreate().setName("Entidades").call();
 
-
-
-            // agregar al repositorio remoto
+            //Agregar al repositorio remoto
             RemoteAddCommand remoteAddCommand = git.remoteAdd();
             remoteAddCommand.setName("origin");
             remoteAddCommand.setUri(new URIish(httpUrl));
 
-            // Podemos agregar mas configuraciones si es necesario aca
+            //Podemos agregar mas configuraciones si es necesario aca
             remoteAddCommand.call();
 
-            // hacer push al remoto:
+            //Hacer push al remoto:
             File localpath = new File("C:\\Users\\daive\\Desktop\\JgitBranch\\");
             List<Ref> call = git.branchList().call();
 
@@ -60,19 +57,12 @@ public class Principal {
                 git.push().setRemote("https://github.com/Carburando/RepositorioJGit.git").setCredentialsProvider(new UsernamePasswordCredentialsProvider("Daivedl","httpsdavid1" )).setPushAll().add(".").call();
                 //PushCommand pushCommand = git.push();
                 //pushCommand.setCredentialsProvider(new UsernamePasswordCredentialsProvider("Daivedl", "httpsdavid1"));
-                // podemos agregar mas configuraciones aca si es necesario
+                //podemos agregar mas configuraciones aca si es necesario
                 //pushCommand.call();
             }
         } catch (GitAPIException | IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
     }
 }
 

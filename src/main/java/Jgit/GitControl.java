@@ -23,11 +23,9 @@ import javax.swing.*;
 @AllArgsConstructor
 @NoArgsConstructor
 
-
 public class GitControl {
     private String localPath, remotePath;
     private Git git;
-
 
     //Metodo para init
     public void init() throws IOException {
@@ -43,19 +41,19 @@ public class GitControl {
         newRepo.create();
     }
 
-    //Metodo para clonar
+    //Método para clonar
     public void cloneRepositorio() throws IOException, GitAPIException {
         Git.cloneRepository().setURI(remotePath).setDirectory(new File(localPath)).call();
     }
 
-    //Metodo para agregar un archivo
+    //Método para agregar un archivo
     public void add() throws IOException, GitAPIException {
         File myfile = new File(localPath + "/myfile");
         myfile.createNewFile();
         git.add().addFilepattern("myfile").call();
     }
 
-    //Metodo remote origin
+    //Método remote origin
     public void remote() throws URISyntaxException, GitAPIException {
         RemoteAddCommand remoteAddCommand = git.remoteAdd();
         remoteAddCommand.setName("origin");
@@ -81,7 +79,6 @@ public class GitControl {
             // Add your own logic here, for example:
             System.out.println("Username or password incorrect.");
         }
-
     }
 
     //Track origin/master a master (esto es necesario si la clonación de un desnudo de repo)
@@ -97,41 +94,40 @@ public class GitControl {
     public void crearBranch(String nombre){
         try {
             git.checkout().setCreateBranch(true).setName(nombre).call();
-            JOptionPane.showMessageDialog(null,"se creo la rama "+ git.getRepository().getFullBranch());
+            JOptionPane.showMessageDialog(null,"Se creó la rama "+ git.getRepository().getFullBranch());
         } catch (GitAPIException e) {
-            JOptionPane.showMessageDialog(null, "no se pudo crear la rama");
+            JOptionPane.showMessageDialog(null, "No se pudo crear la rama");
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "no se encontro la rama");
+            JOptionPane.showMessageDialog(null, "No se encontró la rama");
         }
-
     }
+
     public void cambiarBranch(String nombre){
         try {
-
-            JOptionPane.showMessageDialog(null,"usted está en la rama "+ git.getRepository().getFullBranch());
+            JOptionPane.showMessageDialog(null,"Usted está en la rama "+ git.getRepository().getFullBranch());
             git.checkout().setName(nombre).call();
-            JOptionPane.showMessageDialog(null,"usted se movió a la rama "+ git.getRepository().getFullBranch());
+            JOptionPane.showMessageDialog(null,"Usted se movió a la rama "+ git.getRepository().getFullBranch());
         } catch (GitAPIException e) {
-            JOptionPane.showMessageDialog(null, "la rama no existe");
+            JOptionPane.showMessageDialog(null, "La rama no existe");
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "no se encontro la rama");
+            JOptionPane.showMessageDialog(null, "No se encontró la rama");
         }
-
     }
+
     public void fusionarBranch(String nombre){
         try{
             ObjectId mergeBase = git.getRepository().resolve(nombre);
             MergeResult merge = git.merge().include(mergeBase).setCommit(true)
                     .setFastForward(MergeCommand.FastForwardMode.NO_FF)
-                    .setMessage("se fusiono "+ nombre)
+                    .setMessage("Se fusionó "+ nombre)
                     .call();
-            JOptionPane.showMessageDialog(null,"se fusionaron las ramas");
+            JOptionPane.showMessageDialog(null,"Se fusionaron las ramas");
         } catch (GitAPIException e){
-            JOptionPane.showMessageDialog(null, "error al fusionar las ramas");
+            JOptionPane.showMessageDialog(null, "Error al fusionar las ramas");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "no se encontró la rama");
+            JOptionPane.showMessageDialog(null, "No se encontró la rama");
         }
     }
 }
